@@ -7,12 +7,17 @@ const authRoutes = require('./routes/auth');
 const beerRoutes = require('./routes/beers');
 const orderRoutes = require('./routes/orders');
 const adminRoutes = require('./routes/admin');
+const { corsOptions } = require('./cors-config');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
+app.use(cors(corsOptions));
+    if (!origin || configuredOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true
 }));
 app.use(express.json());

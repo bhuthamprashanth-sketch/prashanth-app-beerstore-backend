@@ -1,0 +1,126 @@
+services:
+  # Production Backend (main branch)
+  - type: web
+    name: prashanth-app-beerstore-backend
+    env: node
+    plan: starter
+    branch: main
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        value: prod_secret_key_prod
+      - key: DATA_DIR
+        value: /var/data/beerstore-backend
+      - key: PORT
+        value: 5000
+    disk:
+      name: beerstore-backend-prod-data
+      mountPath: /var/data/beerstore-backend
+      sizeGB: 1
+
+  # Staging Backend (release branch)
+  - type: web
+    name: prashanth-app-beerstore-backend-stg
+    env: node
+    plan: starter
+    branch: release
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: staging
+      - key: JWT_SECRET
+        value: stg_secret_key_stg
+      - key: DATA_DIR
+        value: /var/data/beerstore-backend-stg
+      - key: PORT
+        value: 5000
+    disk:
+      name: beerstore-backend-stg-data
+      mountPath: /var/data/beerstore-backend-stg
+      sizeGB: 1
+
+  # QA Backend (qa branch)
+  - type: web
+    name: prashanth-app-beerstore-backend-qa1
+    env: node
+    plan: starter
+    branch: qa
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: qa
+      - key: JWT_SECRET
+        value: qa_secret_key_qa
+      - key: DATA_DIR
+        value: /var/data/beerstore-backend-qa
+      - key: PORT
+        value: 5000
+    disk:
+      name: beerstore-backend-qa-data
+      mountPath: /var/data/beerstore-backend-qa
+      sizeGB: 1
+
+  # Development Backend (develop branch)
+  - type: web
+    name: prashanth-app-beerstore-backend-dev1
+    env: node
+    plan: starter
+    branch: develop
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: development
+      - key: JWT_SECRET
+        value: dev_secret_key_dev
+      - key: DATA_DIR
+        value: /var/data/beerstore-backend-dev
+      - key: PORT
+        value: 5000
+    disk:
+      name: beerstore-backend-dev-data
+      mountPath: /var/data/beerstore-backend-dev
+      sizeGB: 1
+    rootDir: .
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: qa
+      - key: JWT_SECRET
+        value: qa-secret-2026
+      - key: DATA_DIR
+        value: /var/data/beerstore
+      - key: CORS_ORIGINS
+        value: https://prashanth-app-beerstore-frontend-qa.onrender.com
+    disk:
+      name: beerstore-backend-qa-data
+      mountPath: /var/data/beerstore
+      sizeGB: 1
+
+  - type: web
+    name: prashanth-app-beerstore-backend-dev
+    env: node
+    plan: free
+    branch: develop
+    rootDir: .
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: development
+      - key: JWT_SECRET
+        value: dev-secret-2026
+      - key: DATA_DIR
+        value: /var/data/beerstore
+      - key: CORS_ORIGINS
+        value: https://prashanth-app-beerstore-frontend-dev.onrender.com
+    disk:
+      name: beerstore-backend-dev-data
+      mountPath: /var/data/beerstore
+      sizeGB: 1
